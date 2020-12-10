@@ -1,0 +1,46 @@
+﻿@model Disciplina
+
+@{
+    ViewData["Title"] = "Alterar dados de Disciplina";
+}
+
+<h1>Alterar dados de Disciplina</h1>
+
+<hr />
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="CursoId" class="control-label"></label>
+            <select asp-for="CursoId" class="form-control" asp-items="ViewBag.lstCursos"></select>
+            <span asp-validation-for="CursoId" class="text-danger"></span>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="CargaHoraria" class="control-label">Carga Horaria</label>
+                <input asp-for="CargaHoraria" class="form-control" />
+                <span asp-validation-for="CargaHoraria" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success" /> &nbsp;
+                <a asp-action="Index" class="btn btn-light">Voltar</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

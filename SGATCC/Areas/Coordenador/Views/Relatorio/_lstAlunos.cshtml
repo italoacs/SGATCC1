@@ -1,0 +1,60 @@
+﻿@model List<Aluno>
+
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Alunos
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table" id="tableAlunos">
+
+            <thead>
+                <tr>
+                    <th>
+                        Ações
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(Model => Model.FirstOrDefault().Matricula)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(Model => Model.FirstOrDefault().Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(Model => Model.FirstOrDefault().DataNascimento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(Model => Model.FirstOrDefault().Curso.Descricao)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(Model => Model.FirstOrDefault().TurnoId)
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            <a asp-action="PdfView"  style="color:#da210d" asp-route-alunoId="@item.Id"asp-route-cursoId="@item.CursoId" title="Download Grade" class="fas fa-file-pdf downloadPDF"></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.Matricula)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.DataNascimento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.Curso.Descricao)
+                        </td><td>
+                            @Html.DisplayFor(Model => item.Turno.Descricao)
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>

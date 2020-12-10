@@ -1,0 +1,101 @@
+﻿@model SGATCC.Areas.Coordenador.ViewModel.GerenciaUsuariosViewModel
+
+<div>
+    <i class="fas fa-user-plus"></i><button class="btn btn-link" id="criaUsuario" style="margin-left:8px">Cadastrar Novo Usuário</button>
+</div>
+<br />
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Pesquisa
+        </div>
+    </div>
+    <form asp-action="PesquisaUsuariosCadastrados" asp-controller="Usuarios" asp-area="Coordenador" data-ajax="true"
+          data-ajax-method="post"
+          data-ajax-update="#resultadoPesquisaUsuarios"
+          data-ajax-begin="pesquisaUsuariosBegin"
+          data-ajax-success="pesquisaUsuariosSuccess"
+          id="formPesquisaUsuarios">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <label asp-for="Filtro.Nome"></label>
+                    <input class="form form-control" asp-for="Filtro.Nome" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" style="margin-top:20px">
+                    <input type="submit" class="btn btn-primary" value="Pesquisar" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="row">
+    <div id="PainelMensagem" class="col-md-12 alert fade show m-2" style="display:none" role="alert">
+        <span id="Mensagem"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+<div id="resultadoPesquisaUsuarios"></div>
+
+
+
+<div class="modal fade" id="modalIncluirUsuario" tabindex="-1" role="dialog" aria-labelledby="modalIncluirUsuario" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="modalExcluir" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#criaUsuario').click(criarUsuario);
+        });
+
+        function pesquisaUsuariosBegin() {
+            $('#formPesquisaUsuarios').loading();
+        }
+
+        function pesquisaUsuariosSuccess(xhr) {
+            $('#formPesquisaUsuarios').loading('stop');
+            if (xhr.erro == true) {
+                $('#PainelMensagem').addClass('alert-danger');
+                $('#Mensagem').html(xhr.msg);
+                $('#PainelMensagem').show();
+            }
+
+            InitDataTableExport("#tableUsuarios");
+        }
+
+        function criarUsuario() {
+            $.ajax({
+                type: "GET",
+                datatype: 'html',
+                url: 'CriarUsuario',
+                success: function (xhr) {
+                    $('#modalIncluirUsuario').modal();
+                    $('.modal-content').html(xhr);
+                }
+            })
+        }
+
+
+    </script>
+}

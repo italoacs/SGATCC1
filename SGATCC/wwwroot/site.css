@@ -1,0 +1,91 @@
+﻿.navbar-right {
+    display: flex;
+    align-items: flex-end;
+}
+
+.bg-yellow {
+    background-color: #f8ec06 !important;
+}
+
+.sidebar-black .sidebar-brand {
+    color: #000000;
+}
+
+.sidebar-black hr.sidebar-divider {
+    border-top: 1px solid #eaecf4;
+}
+
+.sidebar-black .sidebar-heading {
+    color: #000000;
+}
+
+.sidebar-black .nav-item .nav-link {
+    color: #000000;
+}
+
+.sidebar-black .nav-item .nav-link i {
+    color: #000000;
+}
+
+.sidebar-black .nav-item .nav-link:active, .sidebar-light .nav-item .nav-link:focus, .sidebar-light .nav-item .nav-link:hover {
+    color: #000000;
+}
+
+    .sidebar-black .nav-item .nav-link:active i, .sidebar-light .nav-item .nav-link:focus i, .sidebar-light .nav-item .nav-link:hover i {
+        color: #000000;
+    }
+
+.sidebar-black .nav-item .nav-link[data-toggle="collapse"]::after {
+    color: #000000;
+}
+
+.sidebar-black .nav-item.active .nav-link {
+    color: #000000;
+}
+
+    .sidebar-black .nav-item.active .nav-link i {
+        color: #000000;
+    }
+
+.sidebar-black #sidebarToggle {
+    color: #000000;
+}
+
+    .sidebar-black #sidebarToggle::after {
+        color: #000000;
+    }
+
+.sidebar-black #sidebarToggle:hover {
+    background-color: #000000;
+}
+
+.card-admin {
+    background-color: #4e73df;
+}
+
+.card-body {
+    background-color: rgba(245, 241, 241, 0.83);
+}
+.card-title{
+    color:white;
+}
+
+
+.table-admin {
+    background-color: #4e73df;
+    color:white;
+}
+
+.table-admin-body {
+    background-color: rgba(245, 241, 241, 0.83);
+}
+
+.icone-admin{
+     background-color: rgba(245, 241, 241, 0.83);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+

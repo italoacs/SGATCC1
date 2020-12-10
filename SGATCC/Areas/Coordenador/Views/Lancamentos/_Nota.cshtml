@@ -1,0 +1,64 @@
+﻿@model Nota;
+
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Nota
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <form class="form-signin" asp-controller="Lancamentos" asp-action="LancarNota" data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-begin="LancarNotasBegin"
+              data-ajax-success="LancarNotasSuccess"
+              id="formLancarNotas">
+            <input asp-for="DisciplinaId" hidden />
+            <input asp-for="AlunoId" hidden />
+            <div class="form-label-group">
+                <label asp-for="ValorNota"></label>
+               <input asp-for="ValorNota" type="number" min="0.0" max="100.0" class="form-control" />
+            </div>
+            <br />
+            <div class="form-label-group">
+                <label asp-for="Aprovado"></label>
+                <select asp-for="Aprovado" class="form-control">
+                    <option value="false" selected>Não</option>
+                    <option value="true">Sim</option>
+                </select>
+            </div>
+            <br />
+            <button class="btn btn-lg btn-primary btn-block " type="submit">Lançar Nota</button>
+            <hr class="my-4">
+        </form>
+    </div>
+</div>
+
+<script>
+    function LancarNotasBegin() {
+        $('#formLancarNotas').loading();
+    }
+
+    function LancarNotasSuccess(xhr) {
+        $('#formLancarNotas').loading('stop');
+        if (!xhr.erro) {
+            $('#PainelMensagem').removeClass('alert-danger');
+            $('#PainelMensagem').addClass('alert-success');
+            $('#Mensagem').html(xhr.msg);
+            $('#PainelMensagem').show();
+            $('#modal').modal('hide');
+        } else {
+            $('#PainelMensagem').removeClass('alert-success');
+            $('#PainelMensagem').addClass('alert-danger');
+            $('#Mensagem').html(xhr.msg);
+            $('#PainelMensagem').show();
+            $('#modal').modal('hide');
+        }
+
+        setTimeout(() => {
+            $('#PainelMensagem').hide();
+        },3000)
+    }
+</script>

@@ -1,0 +1,48 @@
+﻿@model GradeFiltroViewModel
+
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Grade
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="BuscarAlunos" asp-controller="Relatorio" asp-area="Coordenador" data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-update="#resultado"
+              data-ajax-begin="gradeBegin"
+              data-ajax-success="gradeSuccess"
+              id="formAlunos">
+            <div class="row">
+                <div class="col-md-3">
+                    <label asp-for="CursoId"></label>
+                    <select asp-for="CursoId" asp-items="ViewBag.Cursos" class="form-control"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Matricula"></label>
+                    <input asp-for="Matricula" class="form-control" placeholder="opcional" />
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <input class="btn btn-success" type="submit" value="Buscar" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="resultado">
+
+</div>
+
+<script>
+    function gradeBegin() {
+        $("#formAlunos").loading();
+    }
+    function gradeSuccess() {
+        $("#formAlunos").loading('stop');
+    }
+</script>

@@ -1,0 +1,80 @@
+﻿@model List<Microsoft.AspNetCore.Identity.IdentityUser>
+
+<br />
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Usuários Cadastrados
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table" id="tableUsuarios">
+
+            <thead>
+                <tr>
+                    <th>
+                        Ações
+                    </th>
+                    <th>
+                        Usuario
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="#" class="fas fa-trash icone-admin excluir" data-id="@item.Id" style="color:red" title="Excluir Usuário"></a>
+                            @*<a href="#" class="fas fa-user-edit editar" data-id="@item.Id" title="Editar Usuário"></a>*@
+                            <a class="fas fa-user-edit" asp-action="Editar" asp-route-id="@item.Id" title="Editar Usuário"></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.UserName)
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+       
+        $('.excluir').click(function () {
+            var botao = $(this);
+            var id = botao.attr('data-id');
+
+            $.ajax({
+                url: 'Excluir',
+                type: 'GET',
+                datatype: 'html',
+                data: { id: id },
+                success: function (xhr) {
+                    $('.modal-content').html(xhr);
+                    $('#modalExcluir').modal();
+                }
+            });
+        });
+
+        //$('.editar').click(function () {
+        //    var botao = $(this);
+        //    var id = botao.attr('data-id');
+
+        //    $.ajax({
+        //        type: "GET",
+        //        datatype: 'html',
+        //        url: 'Editar',
+        //        data: { id: id },
+        //        success: function (xhr) {
+        //            $('#modalEditar').modal();
+        //            $('.modal-content').html(xhr);
+        //        }
+        //    })
+        //});
+    })
+
+</script>

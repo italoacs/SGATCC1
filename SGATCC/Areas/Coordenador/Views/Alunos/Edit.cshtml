@@ -1,0 +1,135 @@
+﻿@model SGATCC.Areas.Coordenador.ViewModel.CriarAlunoViewModel
+
+@{
+    ViewData["Title"] = "Alterar dados do Aluno";
+}
+
+<h1>Alterar dados do Aluno</h1>
+
+<hr />
+<form id="form" asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="AlunoId" />
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="CPF" class="control-label"></label>
+                <input asp-for="CPF" class="form-control" />
+                <span asp-validation-for="CPF" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="DataNascimento" class="control-label">Data de Nascimento</label>
+                <input asp-for="DataNascimento" class="form-control" />
+                <span asp-validation-for="DataNascimento" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Sexo" class="control-label"></label>
+                <select class="form-control" asp-for="Sexo">
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outros">Outros</option>
+                </select>
+                <span asp-validation-for="Sexo" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Telefone" class="control-label"></label>
+                <input asp-for="Telefone" class="form-control" />
+                <span asp-validation-for="Telefone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Curso" class="control-label"></label>
+                <select class="form-control" asp-for="Curso" asp-items="ViewBag.lstCursos"></select>
+                <span asp-validation-for="Curso" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Turno" class="control-label"></label>
+                <select class="form-control" asp-for="Turno" asp-items="ViewBag.lstTurno"></select>
+                <span asp-validation-for="Turno" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input id="btnSalvar" type="button" value="Salvar" class="btn btn-success" /> &nbsp;
+                    <a asp-action="Index" class="btn btn-light">Voltar</a>
+                </div>
+            </div>
+        </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $(document).ready(() => {
+        $("#Curso").change(buscarCursos);
+        $("#btnSalvar").click(validaForm);
+    })
+    function validaForm() {
+        var turno = $("#Turno").val();
+        var sexo = $("#Sexo").val();
+
+        if (turno == "") {
+            alert('Selecione o Turno')
+            return;
+        }
+
+        if (sexo == "") {
+            alert('Selecione o Sexo')
+            return;
+        }
+
+        $('#form').submit();
+    }
+    function buscarCursos() {
+        if ($('#Curso').val() != "") {
+            $.ajax({
+                type: "GET",
+                url: "/Coordenador/Alunos/BuscarTurnosDoCurso",
+                data: { cursoId: $('#Curso').val() },
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (obj) {
+                    if (obj != null) {
+                        var selectbox = $('#Turno');
+                        selectbox.find('option').remove();
+                        $('<option>').val("").text("Selecione").appendTo(selectbox);
+                        $.each(obj, function (i, d) {
+                            $('<option>').val(d.value).text(d.text).appendTo(selectbox);
+                        });
+                        $('.mostrar').show();
+                    }
+                }
+            });
+        } else {
+            $('.mostrar').hide();
+        }
+    }
+</script>
+}

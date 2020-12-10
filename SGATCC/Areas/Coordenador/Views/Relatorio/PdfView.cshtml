@@ -1,0 +1,104 @@
+﻿@model PdfViewModel
+
+@{
+    Layout = null;
+}
+
+<!Doctype html>
+<html>
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+      asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+      crossorigin="anonymous"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+
+<link rel="stylesheet" href="~/css/site.css" />
+<!-- Custom fonts for this template-->
+<link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="~/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="~/site.css" rel="stylesheet">
+
+<head>
+
+</head>
+
+<body>
+    <div class="text-center">
+        <i class="fas fa-graduation-cap fa-5x"></i>
+        <h5>SGA</h5>
+    </div>
+    <div class="card">
+        <div class="card-header card-admin">
+            <div class="card-title">
+                <h5>Grade Currícular</h5>
+            </div>
+        </div>
+        <div id="pdfContainer" class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <label asp-for="Curso"></label>
+                    <input asp-for="Curso" class="form-control" readonly />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Nome"></label>
+                    <input asp-for="Nome" class="form-control" readonly />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Matricula"></label>
+                    <input asp-for="Matricula" class="form-control" readonly />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Data"></label>
+                    <input asp-for="Data" class="form-control" readonly />
+                </div>
+            </div>
+            <br />
+            <div>
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(Model => Model.Materias.FirstOrDefault().Disciplina)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(Model => Model.Materias.FirstOrDefault().Faltas)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(Model => Model.Materias.FirstOrDefault().Nota)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(Model => Model.Materias.FirstOrDefault().Situacao)
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.Materias)
+                    {
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(Model => item.Disciplina)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(Model => item.Faltas)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(Model => item.Nota)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(Model => item.Situacao)
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

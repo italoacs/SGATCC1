@@ -1,0 +1,128 @@
+﻿@model SGATCC.Areas.Coordenador.ViewModel.FiltroNotasEChamadaViewModel
+
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Buscar Alunos
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="BuscarAlunos" asp-controller="Lancamentos" asp-area="Coordenador" data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-update="#resultado"
+              data-ajax-begin="alunosBegin"
+              data-ajax-success="alunosSuccess"
+              id="formAlunos">
+            <div class="row">
+                <div class="col-md-3">
+                    <label asp-for="Curso"></label>
+                    <select asp-for="Curso" asp-items="ViewBag.lstCursos" class="form-control"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Turno"></label>
+                    <select asp-for="Turno" class="form-control"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Disciplina"></label>
+                    <select asp-for="Disciplina" class="form-control"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="NomeAluno"></label>
+                    <input asp-for="NomeAluno" class="form-control" placeholder="Opcional" />
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <input class="btn btn-success" type="submit" value="Buscar" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div id="PainelMensagem" class="col-md-12 alert fade show m-2" style="display:none" role="alert">
+        <span id="Mensagem"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalo" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div id="resultado">
+
+</div>
+
+@section Scripts {
+   
+    <script>
+        $(document).ready(() => {
+            $('#Curso').change(buscarTurnos);
+            $('#Turno').change(buscarDisciplinas);
+        })
+
+        function buscarDisciplinas() {
+            if ($('#Turno').val() != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "Lancamentos/BuscarDisciplinasDoCurso",
+                    data: { cursoId: $('#Curso').val(), turnoId: $('#Turno').val() },
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (obj) {
+                        if (obj != null) {
+                            var selectbox = $('#Disciplina');
+                            selectbox.find('option').remove();
+                            $('<option>').val("").text("Selecione").appendTo(selectbox);
+                            $.each(obj, function (i, d) {
+                                $('<option>').val(d.id).text(d.disciplina).appendTo(selectbox);
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+        function buscarTurnos() {
+            if ($('#Curso').val() != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "Lancamentos/BuscarTurnosDoCurso",
+                    data: { cursoId: $('#Curso').val() },
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (obj) {
+                        if (obj != null) {
+                            var selectbox = $('#Turno');
+                            selectbox.find('option').remove();
+                            $('<option>').val("").text("Selecione").appendTo(selectbox);
+                            $.each(obj, function (i, d) {
+                                $('<option>').val(d.id).text(d.turno).appendTo(selectbox);
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+        function alunosBegin() {
+            $('#formAlunos').loading();
+        }
+
+        function alunosSuccess() {
+            $('#formAlunos').loading('stop');
+        }
+    </script>
+}

@@ -1,0 +1,101 @@
+﻿@model RegistrarViewModel;
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="PainelMensagemCadsatrarUsuario" class=" alert fade show m-2" style="display:none" role="alert">
+            <span id="MensagemCadastrarUsuario"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Cadastrar Novo Usuário
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <form class="form-signin" asp-controller="Usuarios" asp-action="Registrar" data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-begin="criarUsuarioBegin"
+              data-ajax-success="criarUsuarioSuccess"
+              id="formCadastrarUsuarios">
+
+
+            <div class="form-label-group">
+                <select asp-for="TipoUsuario" asp-items="ViewBag.Roles" class="form-control" placeholder="Tipo de Usuário" required autofocus></select>
+                <br />
+            </div> 
+            <div class="form-label-group" id="divDisciplina" style="display:none">
+                <select asp-for="DisciplinaId" asp-items="ViewBag.Disciplinas" class="form-control" autofocus></select>
+                <br />
+            </div>
+            <div class="form-label-group">
+                <input asp-for="UserName" class="form-control" placeholder="Usuário" required autofocus>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+                <br />
+            </div>
+
+            <div class="form-label-group">
+                <input asp-for="Password" class="form-control" placeholder="Senha" required autofocus>
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <br />
+            </div>
+            <div class="form-label-group">
+                <input asp-for="PasswordConfirm" class="form-control" placeholder="Confirmar Senha" required autofocus>
+                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                <br />
+            </div>
+            <br />
+            <button class="btn btn-lg btn-primary btn-block " type="submit">Cadastrar</button>
+            <hr class="my-4">
+        </form>
+    </div>
+</div>
+
+<script>
+
+    //$(document).ready(() => {
+    //    $("#TipoUsuario").change(() => {
+    //        var tipo = $("#TipoUsuario").val();
+
+    //        if (tipo == "Professor") {
+    //            $("#divDisciplina").show()
+    //        } else {
+    //            $("#divDisciplina").hide()
+    //        }
+    //    })
+    //})
+
+    function criarUsuarioBegin() {
+        $('#formCadastrarUsuarios').loading();
+    }
+
+    function criarUsuarioSuccess(xhr) {
+        if (xhr.erro == true) {
+            $('#PainelMensagemCadsatrarUsuario').addClass('alert-danger');
+            $('#MensagemCadastrarUsuario').html(xhr.msg);
+            $('#PainelMensagemCadsatrarUsuario').show();
+
+            setTimeout(() => {
+                $('#PainelMensagemCadsatrarUsuario').hide();
+            }, 3000)
+        } else {
+            $('#PainelMensagemCadsatrarUsuario').addClass('alert-success');
+            $('#MensagemCadastrarUsuario').html(xhr.msg);
+            $('#PainelMensagemCadsatrarUsuario').show();
+
+            setTimeout(() => {
+                $('#modalIncluirUsuario').modal("hide");
+                $('#formPesquisaUsuarios').submit();
+            }, 3000)
+        }
+        $('#formCadastrarUsuarios').loading('stop');
+
+    }
+</script>

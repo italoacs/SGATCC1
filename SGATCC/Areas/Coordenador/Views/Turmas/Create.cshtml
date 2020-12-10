@@ -1,0 +1,92 @@
+﻿@model SGATCC.Areas.Coordenador.ViewModel.CriarTurmaViewModel
+
+@{
+    ViewData["Title"] = "Cadastrar nova Turma";
+}
+
+<h1>Cadastrar nova Turma</h1>
+
+<hr />
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="CursoId" class="control-label"></label>
+                <select asp-for="CursoId" class="form-control" asp-items=" ViewBag.lstCursos"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="TurnoId" class="control-label"></label>
+                <select asp-for="TurnoId" class="form-control" asp-items="ViewBag.Turnos"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="DisciplinaId" class="control-label"></label>
+                <select asp-for="DisciplinaId" asp-items="ViewBag.Disciplina" class="form-control"></select>
+            </div>
+        </div>
+        <div id="divProfessor" class="col-md-3" style="display:none">
+            <div class="form-group">
+                <label asp-for="ProfessorId" class="control-label"></label>
+                <select asp-for="ProfessorId" class="form-control"></select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="divAcoes" class="col-md-12" style="display:none">
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success" /> &nbsp;
+                <a asp-action="Index" class="btn btn-light">Voltar</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(() => {
+            $('#DisciplinaId').change(buscarProfessores);
+        })
+
+        function buscarProfessores() {
+            if ($('#DisciplinaId').val() != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "BuscarProfessoresDoCurso",
+                    data: { disciplinaId: $('#DisciplinaId').val() },
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (obj) {
+                        if (obj != null) {
+                            var selectbox = $('#ProfessorId');
+                            selectbox.find('option').remove();
+                            $('<option>').val("").text("Selecione").appendTo(selectbox);
+                            $.each(obj, function (i, d) {
+                                $('<option>').val(d.professorId).text(d.nome).appendTo(selectbox);
+                            });
+                            $('#divProfessor').show();
+                            $('#divAcoes').show();
+                        }
+                    }
+                });
+            } else {
+                $('#divProfessor').hide();
+                $('#divAcoes').hide();
+            }
+        }
+    </script>
+}

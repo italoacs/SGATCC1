@@ -1,0 +1,41 @@
+﻿@model SGATCC.Areas.Coordenador.Models.Curso
+
+@{
+    ViewData["Title"] = "Alterar dados do Curso";
+}
+
+<h1>Alterar dados do Curso</h1>
+
+<hr />
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="CargaHorariaTotal" class="control-label">Carga Horaria Total</label>
+                <input asp-for="CargaHorariaTotal" class="form-control" />
+                <span asp-validation-for="CargaHorariaTotal" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success" /> &nbsp;
+                <a asp-action="Index" class="btn btn-light">Voltar</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

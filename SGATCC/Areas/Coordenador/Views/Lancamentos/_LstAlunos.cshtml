@@ -1,0 +1,95 @@
+﻿@model IEnumerable<SGATCC.Areas.Coordenador.ViewModel.CriarAlunoViewModel>
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Alunos Cadastrados
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table" id="tableUsuarios">
+
+            <thead>
+                <tr>
+                    <th>Ações</th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.FirstOrDefault().Matricula)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.FirstOrDefault().Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.FirstOrDefault().DataNascimento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.FirstOrDefault().Disciplina)
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="#" class="fas fa-calendar-check icone-admin frequencia" data-disciplina="@item.Disciplina" data-alunoId="@item.AlunoId" title="Frequência" style="margin-right:15px"></a>
+                            <a href="#" class="fas fa-users icone-admin nota" data-disciplina="@item.Disciplina" data-alunoId="@item.AlunoId" title="Nota"></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.Matricula)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.DataNascimento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(Model => item.Disciplina)
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('.frequencia').click(function () {
+            const botao = $(this);
+            var alunoId = botao.attr('data-alunoId');
+            var disciplina = botao.attr('data-Disciplina');
+
+            $.ajax({
+                url: 'Lancamentos/Frequencia',
+                data: { alunoId: alunoId, disciplina: disciplina },
+                type: 'GET',
+                datatype: 'html',
+                success: function (xhr) {
+                    $('.modal-content').html("");
+                    $('.modal-content').html(xhr);
+                    $('#modal').modal();
+                }
+            });
+        });
+
+        $('.nota').click(function () {
+            const botao = $(this);
+            var alunoId = botao.attr('data-alunoId');
+            var disciplina = botao.attr('data-Disciplina');
+
+            $.ajax({
+                url: 'Lancamentos/Nota',
+                data: { alunoId: alunoId, disciplina: disciplina },
+                type: 'GET',
+                datatype: 'html',
+                success: function (xhr) {
+                    $('.modal-content').html("");
+                    $('.modal-content').html(xhr);
+                    $('#modal').modal();
+                }
+            });
+        });
+    })
+</script>
+

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<SGATCC.Areas.Coordenador.Models.Disciplina>
+
+@{
+    ViewData["Title"] = "Lista de Disciplinas";
+}
+
+<h1>Lista de Disciplinas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Cadastrar nova Disciplina</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                Carga Horaria
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CargaHoraria)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">Alterar</a> &nbsp;
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Detalhes</a> &nbsp;
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,48 @@
+﻿@model ExcluirViewModel
+
+<div class="card">
+    <div class="card-header card-admin">
+        <div class="card-title">
+            Excluir Usuario
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <form class="form-signin" asp-area="Coordenador" asp-controller="Usuarios" asp-action="ExcluirUsuario" data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-begin="ExcluirUsuarioBegin"
+              data-ajax-success="ExcluirUsuarioSuccess"
+              id="formExcluirUsuarios">
+           
+            <div class="modal-body">
+                <h5>Deseja realmente remover esse Usuário?</h5>
+                <input asp-for="Id" hidden />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                <input type="submit" class="btn btn-primary" value="Sim" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function ExcluirUsuarioBegin() {
+        $('#formExcluirUsuarios').loading();
+    }
+
+    function ExcluirUsuarioSuccess(xhr) {
+        $('#modalExcluir').modal('hide');
+        $('#PainelMensagem').addClass('alert-success');
+        $('#Mensagem').html(xhr.msg);
+        $('#PainelMensagem').show();
+        $('#formExcluirUsuarios').loading('stop');
+        setTimeout(function () {
+            $('#formPesquisaUsuarios').submit();
+            $('#modalExcluir').modal("hide");
+            $('#PainelMensagem').hide();
+        },1000)
+    }
+</script>
